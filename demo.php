@@ -82,7 +82,7 @@ if ($_SESSION['application'] == 'women-safety') {
             $r->addPlayText('Please provide your location details and your current situation');
             $r->addPlayText('Record your message after beep ');
             //give unique file name for each recording
-            $r->addRecord('message');
+            $r->addRecord('message', 'wav', '120');
         } else if ($_REQUEST['data'] == '2') {
             $_SESSION['next_goto'] = 'Dial1_Status1';
             $r->addDial("181", 'true', 1000, 30, 'default');
@@ -246,7 +246,8 @@ if ($_SESSION['application'] == 'women-safety') {
     } else if ($_REQUEST['event'] == 'Record' && $_SESSION['next_goto'] == 'Record_Status') {
 //recorded file will be come as  url in data param
         //print parameter data value
-        $r->addPlayText('your recorded audio is ');
+        
+        //$r->addPlayText('your recorded audio is ');
         $_SESSION['record_url'] = $_REQUEST['data'];
         //$r->addPlayAudio($_SESSION['record_url']);
 
@@ -272,8 +273,7 @@ if ($_SESSION['application'] == 'women-safety') {
         $_SESSION['dial_callduration'] = $_REQUEST['callduration'];
         if ($_REQUEST['status'] == 'not_answered') {
             //if you would like dial another number, if first call not answered,
-            //
-            $r->addDial("181", 'true', 1000, 30, 'default');
+            $_SESSION['next_goto'] = 'DialMenu';
         } else {
             $r->addPlayText('Thank you for calling, ');
             $r->addHangup(); // do something more or send hang up to kookoo
